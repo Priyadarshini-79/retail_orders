@@ -10,17 +10,22 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Connect to MySQL Database
-db_connection = mysql.connector.connect(
-    host="127.0.0.1",        
-    user="root",        
-    password="Mahe@1970", 
-    database="retail_orders"
-)
+# Connect to MySQL
+def get_connection():
+    return mysql.connector.connect(
+        host=("mysql.railway.internal"),
+        user=("root"),
+        password=("xvOowmfASecBiukxiXLKyLIEtvawuaPy"),
+        database=("railway"),
+        port=3306
+    )
 
-# Function to execute SQL query and return a DataFrame
+# Fetch data from MySQL
 def get_data(query):
-    return pd.read_sql(query, db_connection)
+    conn = get_connection()
+    df = pd.read_sql(query, conn)
+    conn.close()
+    return df
 
 # Queries
 top_products_query = """
